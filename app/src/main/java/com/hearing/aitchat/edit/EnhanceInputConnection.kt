@@ -8,7 +8,7 @@ import android.view.inputmethod.InputConnectionWrapper
  * @author liujiadong
  * @since 2020/10/20
  */
-class AitInputConnection(target: InputConnection, mutable: Boolean, private val editText: AitEditView) :
+class EnhanceInputConnection(target: InputConnection, mutable: Boolean, private val editText: EnhanceEditView) :
     InputConnectionWrapper(target, mutable) {
     private val rangeManager = editText.rangeManager
 

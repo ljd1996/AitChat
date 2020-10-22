@@ -1,4 +1,4 @@
-package com.hearing.aitchat.userlist
+package com.hearing.aitchat.ait
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hearing.aitchat.R
-import com.hearing.aitchat.edit.User
 
 /**
  * @author liujiadong

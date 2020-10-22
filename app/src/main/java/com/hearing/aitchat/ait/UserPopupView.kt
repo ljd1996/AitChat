@@ -1,4 +1,4 @@
-package com.hearing.aitchat.userlist
+package com.hearing.aitchat.ait
 
 import android.content.Context
 import android.view.Gravity
@@ -33,7 +33,7 @@ class UserPopupView(context: Context) {
         adapter?.onUserChooseListener = listener
     }
 
-    fun show(view: View, key: String?) {
+    fun show(view: View, key: String? = null) {
         adapter?.setData(UserUtil.getUsersByKey(key))
         popupWindow?.showAtLocation(view, Gravity.CENTER, -100, -500)
     }

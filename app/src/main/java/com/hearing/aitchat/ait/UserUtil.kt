@@ -1,6 +1,4 @@
-package com.hearing.aitchat.userlist
-
-import com.hearing.aitchat.edit.User
+package com.hearing.aitchat.ait
 
 /**
  * @author liujiadong

@@ -1,4 +1,4 @@
-package com.hearing.aitchat.edit
+package com.hearing.aitchat.common
 
 /**
  * @author liujiadong

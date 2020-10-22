@@ -2,8 +2,7 @@ package com.hearing.aitchat.text
 
 import android.content.Context
 import android.graphics.Color
-import android.text.SpannableString
-import android.text.TextPaint
+import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.util.AttributeSet
@@ -14,26 +13,27 @@ import androidx.appcompat.widget.AppCompatTextView
  * @author liujiadong
  * @since 2020/10/21
  */
-class AitTextView(context: Context, attrs: AttributeSet?, defStyle: Int) : AppCompatTextView(context, attrs, defStyle) {
+class EnhanceTextView(context: Context, attrs: AttributeSet?, defStyle: Int) : AppCompatTextView(context, attrs, defStyle) {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    private var parser: AitParser? = null
-
-    init {
-        parser = AitParser()
-    }
-
-    fun setHtml(text: CharSequence?) {
+    fun setEnhanceText(text: CharSequence?) {
         try {
             val spaceTxt = text?.toString()?.replace("\n", "<br>")
                 ?.replace("  ", "&nbsp;&nbsp;")
-            super.setText(parser?.convert(spaceTxt))
+            super.setText(parse(spaceTxt))
             stripUnderlines()
             movementMethod = LinkMovementMethod.getInstance()
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun parse(source: CharSequence?): Spanned {
+        if (TextUtils.isEmpty(source)) {
+            return SpannableString("")
+        }
+        return Html.fromHtml(source?.toString() ?: "", null, EnhanceTagHandler())
     }
 
     private fun stripUnderlines() {
