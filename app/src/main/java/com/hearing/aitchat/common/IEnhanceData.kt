@@ -5,6 +5,8 @@ package com.hearing.aitchat.common
  * @since 2020/10/20
  */
 interface IEnhanceData {
+    fun label(): String
+
     fun charSequence(): CharSequence
 
     fun color(): String

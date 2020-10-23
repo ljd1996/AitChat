@@ -1,4 +1,4 @@
-package com.hearing.aitchat.ait
+package com.hearing.aitchat.selector
 
 import android.content.Context
 import android.view.Gravity
@@ -13,28 +13,36 @@ import com.hearing.aitchat.R
  * @author liujiadong
  * @since 2020/10/21
  */
-class UserPopupView(context: Context) {
+class SelectorPopupView(context: Context) {
+
+    companion object {
+        const val SELECTOR_TYPE_USER = 0
+        const val SELECTOR_TYPE_TOPIC = 1
+    }
 
     private var popupWindow: PopupWindow? = null
     private var recyclerView: RecyclerView? = null
-    private var adapter: UserAdapter? = null
+    private var adapter: DataAdapter? = null
 
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_user_list, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.layout_selector_list, null)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView?.layoutManager = LinearLayoutManager(context)
-        adapter = UserAdapter()
+        adapter = DataAdapter()
         recyclerView?.adapter = adapter
         popupWindow = PopupWindow(view, 600, 800)
         popupWindow?.isOutsideTouchable = true
     }
 
-    fun setUserChooseListener(listener: UserAdapter.OnUserChooseListener) {
-        adapter?.onUserChooseListener = listener
+    fun setDataChooseListener(listener: DataAdapter.OnDataChooseListener) {
+        adapter?.onDataChooseListener = listener
     }
 
-    fun show(view: View, key: String? = null) {
-        adapter?.setData(UserUtil.getUsersByKey(key))
+    fun show(view: View, type: Int = SELECTOR_TYPE_USER, key: String? = null) {
+        when (type) {
+            SELECTOR_TYPE_USER -> adapter?.setData(UserFactory.getUsersByKey(key))
+            SELECTOR_TYPE_TOPIC -> adapter?.setData(TopicFactory.getTopicsByKey(key))
+        }
         popupWindow?.showAtLocation(view, Gravity.CENTER, -100, -500)
     }
 

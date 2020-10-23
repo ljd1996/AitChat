@@ -13,12 +13,15 @@ class User(val id: String, val name: String) : IEnhanceData {
         const val ID = "id"
         const val NAME = "name"
         const val COLOR = "color"
+        const val DEFAULT_COLOR = "#FF0000"
         private const val USER_FORMAT = "<$USER $ID='%s' $NAME='%s' $COLOR='%s'>%s</$USER>"
     }
 
-    override fun charSequence() = "$AIT$name "
+    override fun label() = name
 
-    override fun color() = "#FF0000"
+    override fun charSequence() = " $AIT$name "
 
-    override fun formatData() = String.format(USER_FORMAT, id, name, color(), name)
+    override fun color() = DEFAULT_COLOR
+
+    override fun formatData() = String.format(USER_FORMAT, id, name, color(), charSequence())
 }

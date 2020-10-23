@@ -5,8 +5,10 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import com.hearing.aitchat.ait.User
-import com.hearing.aitchat.ait.UserAdapter
-import com.hearing.aitchat.ait.UserPopupView
+import com.hearing.aitchat.common.IEnhanceData
+import com.hearing.aitchat.selector.DataAdapter
+import com.hearing.aitchat.selector.SelectorPopupView
+import com.hearing.aitchat.topic.Topic
 
 /**
  * @author liujiadong
@@ -14,14 +16,14 @@ import com.hearing.aitchat.ait.UserPopupView
  */
 class EnhanceTextWatcher(private val editView: EnhanceEditView) : TextWatcher {
     private val rangeManager = editView.rangeManager
-    private val userPopupView = UserPopupView(editView.context)
+    private val selectorPopupView = SelectorPopupView(editView.context)
     private var delNeed = 0
 
     init {
-        userPopupView.setUserChooseListener(object : UserAdapter.OnUserChooseListener {
-            override fun select(user: User) {
-                editView.insert(user, delNeed)
-                userPopupView.dismiss()
+        selectorPopupView.setDataChooseListener(object : DataAdapter.OnDataChooseListener {
+            override fun select(data: IEnhanceData) {
+                editView.insert(data, delNeed)
+                selectorPopupView.dismiss()
             }
         })
     }
@@ -61,17 +63,37 @@ class EnhanceTextWatcher(private val editView: EnhanceEditView) : TextWatcher {
         if (s == null) {
             return
         }
+        handleAit(s, start, count)
+        handleTopic(s, start, count)
+    }
+
+    private fun handleAit(s: CharSequence, start: Int, count: Int) {
         if (count == 1 && !TextUtils.isEmpty(s)) {
-            val mentionChar = s.toString()[start].toString()
-            if (TextUtils.equals(User.AIT, mentionChar)) {
+            val inputChar = s.toString()[start].toString()
+            if (TextUtils.equals(User.AIT, inputChar)) {
                 delNeed = 1
-                userPopupView.show(editView)
+                selectorPopupView.show(editView, SelectorPopupView.SELECTOR_TYPE_USER)
             }
         }
         val index = s.lastIndexOf(User.AIT)
-        if (index >= 0 && index < s.length - 1) {
+        if (index >= 0 && index < s.length - 1 && rangeManager?.contains(index) == false) {
             delNeed = s.length - index
-            userPopupView.show(editView, s.substring(index + 1, s.length))
+            selectorPopupView.show(editView, SelectorPopupView.SELECTOR_TYPE_USER, s.substring(index + 1, s.length))
+        }
+    }
+
+    private fun handleTopic(s: CharSequence, start: Int, count: Int) {
+        if (count == 1 && !TextUtils.isEmpty(s)) {
+            val inputChar = s.toString()[start].toString()
+            if (TextUtils.equals(Topic.TOPIC, inputChar)) {
+                delNeed = 1
+                selectorPopupView.show(editView, SelectorPopupView.SELECTOR_TYPE_TOPIC)
+            }
+        }
+        val index = s.lastIndexOf(Topic.TOPIC)
+        if (index >= 0 && index < s.length - 1 && rangeManager?.contains(index) == false) {
+            delNeed = s.length - index
+            selectorPopupView.show(editView, SelectorPopupView.SELECTOR_TYPE_TOPIC, s.substring(index + 1, s.length))
         }
     }
 }

@@ -1,10 +1,12 @@
-package com.hearing.aitchat.ait
+package com.hearing.aitchat.selector
+
+import com.hearing.aitchat.ait.User
 
 /**
  * @author liujiadong
  * @since 2020/10/21
  */
-object UserUtil {
+object UserFactory {
     private val users = mutableListOf<User>()
 
     init {

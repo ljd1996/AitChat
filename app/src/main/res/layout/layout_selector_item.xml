@@ -13,7 +13,7 @@
         android:src="@drawable/header" />
 
     <TextView
-        android:id="@+id/user_name_tv"
+        android:id="@+id/label_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"

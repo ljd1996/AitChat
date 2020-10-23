@@ -5,37 +5,40 @@ package com.hearing.aitchat.common
  * @since 2020/10/20
  */
 class RangeManager {
-    private val mRanges = mutableListOf<Range>()
+    private val ranges = mutableListOf<Range>()
 
     fun getSorted(): List<Range> {
-        mRanges.sort()
-        return mRanges
+        ranges.sort()
+        return ranges
     }
 
-    fun <T : Range> add(range: T) = mRanges.add(range)
+    fun <T : Range> add(range: T) = ranges.add(range)
 
-    fun <T : Range> remove(range: T) = mRanges.remove(range)
+    fun <T : Range> remove(range: T) = ranges.remove(range)
 
-    fun clear() = mRanges.clear()
+    fun clear() = ranges.clear()
 
-    fun isEmpty() = mRanges.isEmpty()
+    fun isEmpty() = ranges.isEmpty()
 
-    operator fun iterator() = mRanges.iterator()
+    operator fun iterator() = ranges.iterator()
+
+    fun contains(sel: Int): Boolean {
+        ranges.forEach { range ->
+            if (range.contains(sel, sel)) return true
+        }
+        return false
+    }
 
     fun getRangeOfLeft(sel: Int): Range? {
-        for (range in mRanges) {
-            if (range.to == sel) {
-                return range
-            }
+        ranges.forEach { range ->
+            if (range.to == sel) return range
         }
         return null
     }
 
     fun getRangeOfNearby(selStart: Int, selEnd: Int): Range? {
-        for (range in mRanges) {
-            if (range.isWrappedBy(selStart, selEnd)) {
-                return range
-            }
+        ranges.forEach { range ->
+            if (range.isWrappedBy(selStart, selEnd)) return range
         }
         return null
     }
